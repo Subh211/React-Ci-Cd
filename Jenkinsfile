@@ -1,16 +1,21 @@
-// pipeline {
-//     agent any
-//     stages {
-//         stage ('Hello') {
-//             steps {
-//                 echo 'Hello World'
-//             }
-//         }
-//     }
-// }
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true)
+    }
     stages {
+        stage ('Code Cleanup') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage ('Checkout using SCM') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage ('Build') {
             agent {
                 docker {
